@@ -39,6 +39,35 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+      <!-- Hibernate ORM specific dependencies -->
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-hibernate-orm-panache</artifactId>
+      </dependency>
+
+      <!-- JDBC driver dependencies -->
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-jdbc-postgresql</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jsonb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-db</artifactId>
+      <version>1.0.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
