@@ -1,0 +1,29 @@
+= Golfplatz-Administration
+:imagesdir: ./img
+:source-highlighter: coderay
+:toc:
+Leon Kuchinka <l.kuchinka@gmail.com>
+
+== Use Cases
+[plantuml]
+----
+
+actor golfer as "Golf Spieler"
+actor admin as "Administrator"
+
+usecase UC1 as "Abfrage eigener Startzeiten"
+usecase UC2 as "Erstellen einer Startzeit"
+usecase UC3 as "Administieren der Golf-Spieler-Daten"
+
+golfer --> UC1
+golfer --> UC2
+admin --> UC3
+
+golfer <|- admin
+
+----
+Beschreibung:
+
+#1 Abfrage eigener Startzeiten:: Als Spieler möchte ich abfragen können, für welche Startzeiten ich eingetragen bin
+#2 Erstellen einer Startzeit:: Als Spieler möchte ich eine neue Startzeit erstellen können
+#3 Administieren der Golf-Spieler-Daten:: Als Administrator möchte ich die Daten der Golf-Spieler verwalten
