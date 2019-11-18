@@ -4,8 +4,17 @@
 :toc:
 Leon Kuchinka <l.kuchinka@gmail.com>
 
+== Übersicht
+Das Projekt dient der Verwaltung eines Golfplatzes. Gespeichert werden alle Golfer, die entweder Mitglied eines Teams (TeamPlayer) oder Hobbyspieler sind. Teammitglieder oder Hobbyspieler mti Premium-Mitgliedschaft (isPremiumMember) haben clubintern einige Vorteile. Alle müssen Startzeiten (TeeTime) buchen um auf dem 18-Loch-Kurs spielen gehen zu können.
+
+== CLD
+image::CLD.png[CLD]
+
+== ERD
+image::erd.png[ERD]
+
 == Use Cases
-[plantuml]
+[startuml]
 ----
 
 actor golfer as "Golf Spieler"
@@ -22,8 +31,97 @@ admin --> UC3
 golfer <|- admin
 
 ----
-Beschreibung:
 
 #1 Abfrage eigener Startzeiten:: Als Spieler möchte ich abfragen können, für welche Startzeiten ich eingetragen bin
 #2 Erstellen einer Startzeit:: Als Spieler möchte ich eine neue Startzeit erstellen können
 #3 Administieren der Golf-Spieler-Daten:: Als Administrator möchte ich die Daten der Golf-Spieler verwalten
+
+== REST-API
+
+==== UseCase 1: Abfragen eigener Startzeiten
+[source, shell]
+----
+curl -X GET "http://localhost:8080/teetime/golfer?golferId=1" -H "accept: application/json"
+----
+WARNING: Make sure the used id exists!
+
+==== UseCase 2: Erstellen einer Startzeit
+[source, shell]
+----
+curl -X POST "http://localhost:8080/teetime" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"players\":[{\"id\":1},{\"id\":2}],\"time\":\"01-01-2020 08:10\"}"
+----
+WARNING: Make sure the used ids exist!
+
+==== UseCase 3: Administieren der Golf-Spieler-Daten
+
+GET::
+[source, shell]
+----
+curl -X GET "http://localhost:8080/golfer" -H "accept: application/json"
+----
+
+PUT::
+[source, shell]
+----
+curl -X PUT "http://localhost:8080/golfer?id=1" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"age\":18,\"hcp\":-1.1,\"id\":1,\"name\":\"Leon Kuchinka\"}"
+----
+
+POST::
+[source, shell]
+----
+curl -X POST "http://localhost:8080/golfer" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"age\":45,\"hcp\":-54,\"name\":\"Max Mustermann\"}"
+----
+
+DELETE::
+[source, shell]
+----
+curl -X DELETE "http://localhost:8080/golfer?id=6" -H "accept: application/json"
+----
+
+== Verwendung
+
+==== Dev-Mode
+Um das Projekt im Dev-Mode zu starten sind folgende Befehle notwendig:
+[source, shell]
+----
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=passme -d postgres
+./mvnw compile quarkus:dev
+----
+Die Datenbank-Verbindung kann in der IDE folgendermaßen erstellt werden:
+
+image::datasource-ide.png[ide]
+
+Credentials::
+|====
+| host | localhost
+| port | 5432
+| user | postgres
+| password | passme
+| database | postgres
+|====
+
+==== Prod-Mode
+Um das Projekt in Production laufen zu lassen, liegt das `startup.sh` Skript bereit. Wenn es ausgeführt wird, werden Docker-Container für die PostgreSQL und für die Quarkus-Applikation erstellt
+
+== OpenAPI & SwaggerUI
+Unter `localhost:8080/openapi` ist die OpenAPI-Spezifikation zu finden und unter  `localhost:8080/swagger-ui` befindet sich die dazugehörige SwaggerUI.
+
+== Panache & Hibernate
+
+Um diese zwei Varianten einander gegenüberzustellen wurden in diesem Projekt beide verwendet. `GolferDao.java` habe ich, wie wir es bisher gemacht haben implementiert; `GolferPanacheRepo.java` und `TeeTimePanacheRepo.java` habe ich als `PanacheRepository` erstellt. Dadurch geht zwar der Komfort von `PanacheEntity` verloren, bei komplexeren Datenmodellen (mit Vererbung) ist dies aber übersichtlicher. Außerdem finde ich es "unsauber" Code für die Persistierung in meinen Model-Klassen zu haben. Mit `PanacheRepository` hat man diese Trennung wie bei DAOs, wie wir sie bisher im Unterricht geschrieben haben.
+
+Dank Panache sind (fast) alle JPQL-Queries überflüssig. Einfache Abfragen können ganz leicht mithilfe des Repositories gemacht werden. Dadurch verliert man eine riesige Fehlerquelle. Nur für eine komplexere Abfrage musste ich auf JPQL zurückgreifen, was aber kein Problem darstellt. Mit `repo.find("select g from Golfer g").list()` können auch JPQL-Queries erstellt werden. Ein weiterer Vorteil ist, dass alle CRUD-Funktionen out-of-the-box funktionieren, wodurch man sich einen Haufen Boilerplate-Code in DAOs spart.
+
+Der, für mich einzig ersichtliche, große Nachteil von Panache ist die (noch) nicht vorhandene Community und Dokumentation dazu. Das erschwert die Arbeit damit erheblich, da man im Internet kaum Antworten auf Fragen findet.
+
+
+
+
+
+
+
+
+
+
+
+
