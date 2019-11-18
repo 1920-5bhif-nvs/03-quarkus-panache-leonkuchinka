@@ -57,7 +57,7 @@ public class InitBean {
         firstFlight.addPlayer(philipPfeifenberger);
         em.persist(firstFlight);
 
-        TeeTime secondFlight = new TeeTime(new Date(2019, 11, 18, 8, 10));
+        TeeTime secondFlight = new TeeTime(Date.from(Instant.now()));
         secondFlight.addPlayer(leonKuchinka);
         secondFlight.addPlayer(michaelFehringer);
         secondFlight.addPlayer(julianNobis);
