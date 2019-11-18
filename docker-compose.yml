@@ -1,0 +1,30 @@
+version: '3.1'
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  gca-net:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: passme
+    ports:
+      - 5432:5432
+    networks:
+      - gca-net
+
+  gca:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    networks:
+      - gca-net
+    ports:
+      - 8080:8080
