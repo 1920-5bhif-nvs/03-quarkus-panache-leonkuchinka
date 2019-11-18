@@ -1,14 +1,12 @@
 package at.htl.gca.model;
 
-import at.htl.gca.business.XMLAdapter;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.time.LocalDate;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +22,11 @@ public class TeeTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @XmlJavaTypeAdapter(XMLAdapter.class)
-    private LocalDateTime time;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm")
+    private Date time;
 
-    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name="GOLFER_TEETIME",
             joinColumns = @JoinColumn(name = "TEETIMEID"),
@@ -36,7 +35,7 @@ public class TeeTime {
     private List<Golfer> players;
 
     //region Constructors
-    public TeeTime(LocalDateTime time) {
+    public TeeTime(Date time) {
         this();
         this.time = time;
     }
@@ -66,11 +65,11 @@ public class TeeTime {
             players.remove(g);
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
     //endregion

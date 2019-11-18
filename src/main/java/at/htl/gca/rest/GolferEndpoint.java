@@ -41,7 +41,6 @@ public class GolferEndpoint {
     http://localhost:8080/golfer?id=1
     {"id":1,"name":"Leon Kuchinka","hcp":-1.3,"age":19}
      */
-
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
