@@ -16,9 +16,12 @@ image::erd.png[ERD]
 == Use Cases
 [plantuml]
 ----
+left to right direction
+skinparam packageStyle rectangle
 actor golfer as "Golf Spieler"
 actor admin as "Administrator"
 
+rectangle checkout {
 usecase UC1 as "Abfrage eigener Startzeiten"
 usecase UC2 as "Erstellen einer Startzeit"
 usecase UC3 as "Administieren der Golf-Spieler-Daten"
@@ -26,6 +29,8 @@ usecase UC3 as "Administieren der Golf-Spieler-Daten"
 golfer --> UC1
 golfer --> UC2
 admin --> UC3
+}
+golfer <|- admin
 ----
 
 #1 Abfrage eigener Startzeiten:: Als Spieler möchte ich abfragen können, für welche Startzeiten ich eingetragen bin
@@ -112,7 +117,7 @@ Der, für mich einzig ersichtliche, große Nachteil von Panache ist die (noch) n
 
 
 
-
+=== Beurteilung
 
 
 
