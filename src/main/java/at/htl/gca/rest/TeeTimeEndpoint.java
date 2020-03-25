@@ -33,6 +33,15 @@ public class TeeTimeEndpoint {
     GolferDao golferPanacheRepo;
 
     @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") long id) {
+        TeeTime teeTime = teeTimePanacheRepo.getById(id);
+        if(teeTime == null)
+            return Response.status(404).build();
+        return Response.ok().entity(teeTime).build();
+    }
+
+    @GET
     @Path("/golfer")
     public Response findTeeTimesForGolfer(@QueryParam("golferId") Long id){
         Golfer golfer = golferPanacheRepo.findById(id);

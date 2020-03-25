@@ -1,12 +1,15 @@
 package at.htl.gca.business;
 
 import at.htl.gca.model.Golfer;
+import io.quarkus.hibernate.orm.panache.Panache;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Parameters;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityGraph;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 
 @ApplicationScoped
 public class GolferPanacheRepo implements PanacheRepository<Golfer> {

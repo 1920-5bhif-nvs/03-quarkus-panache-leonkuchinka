@@ -18,6 +18,12 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "TeeTime.findAll", query = "select distinct t from TeeTime t join fetch t.players")
 })
+@NamedEntityGraph(
+        name = "teetime-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("players")
+        }
+)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TeeTime {
     @Id

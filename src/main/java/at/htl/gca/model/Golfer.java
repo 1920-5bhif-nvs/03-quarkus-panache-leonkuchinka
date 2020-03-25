@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Golfer.findall", query="select g from Golfer g")
+
 public class Golfer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
