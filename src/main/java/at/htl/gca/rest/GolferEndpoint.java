@@ -65,7 +65,7 @@ public class GolferEndpoint {
     public Response delete(@QueryParam("id") Long id){
         try {
             Golfer golfer = golferPanacheRepo.findById(id);
-            golferPanacheRepo.delete(golfer);
+            golferPanacheRepo.remove(golfer);
             return Response.ok().entity(golfer).build();
         }catch(Exception e){
             return Response.serverError().build();

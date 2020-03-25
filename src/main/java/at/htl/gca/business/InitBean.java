@@ -51,13 +51,13 @@ public class InitBean {
         HobbyPlayer julianNobis = new HobbyPlayer("Julian Nobis", -54, 18, false);
         em.persist(julianNobis);
 
-        TeeTime firstFlight = new TeeTime(Date.from(Instant.now()));
+        TeeTime firstFlight = new TeeTime(LocalDateTime.now());
         firstFlight.addPlayer(leonKuchinka);
         firstFlight.addPlayer(christophBleier);
         firstFlight.addPlayer(philipPfeifenberger);
         em.persist(firstFlight);
 
-        TeeTime secondFlight = new TeeTime(Date.from(Instant.now()));
+        TeeTime secondFlight = new TeeTime(LocalDateTime.now());
         secondFlight.addPlayer(leonKuchinka);
         secondFlight.addPlayer(michaelFehringer);
         secondFlight.addPlayer(julianNobis);

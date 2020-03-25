@@ -1,5 +1,7 @@
 package at.htl.gca;
 
+import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.assertj.db.type.Table;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import javax.sql.DataSource;
 import static org.assertj.db.api.Assertions.assertThat;
 
 @QuarkusTest
+@QuarkusTestResource(H2DatabaseTestResource.class)
 public class DataModelTest {
 
     @Inject

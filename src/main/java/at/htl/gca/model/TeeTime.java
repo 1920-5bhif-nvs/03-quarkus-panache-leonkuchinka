@@ -1,7 +1,9 @@
 package at.htl.gca.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,9 +24,9 @@ public class TeeTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm")
-    private Date time;
+    //@Temporal(TemporalType.TIMESTAMP)
+    @JsonbDateFormat(value = JsonbDateFormat.DEFAULT_FORMAT)
+    private LocalDateTime time;
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -35,7 +37,7 @@ public class TeeTime {
     private List<Golfer> players;
 
     //region Constructors
-    public TeeTime(Date time) {
+    public TeeTime(LocalDateTime time) {
         this();
         this.time = time;
     }
@@ -65,11 +67,15 @@ public class TeeTime {
             players.remove(g);
     }
 
-    public Date getTime() {
+    public void setPlayers(List<Golfer> players) {
+        this.players = players;
+    }
+
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
     //endregion

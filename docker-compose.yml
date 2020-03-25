@@ -28,3 +28,13 @@ services:
       - gca-net
     ports:
       - 8080:8080
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - gca-net
+    ports:
+      - 8282:9090
+    
